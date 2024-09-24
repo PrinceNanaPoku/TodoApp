@@ -11,11 +11,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List todoList = [
-    ['Write Code', false],
-    ['Go Swimming', false],
-    ['Cook Supper', false],
-  ];
+  //Text Controller
+  final _controller = TextEditingController();
+  List todoList = [];
 
   //Check box was tapped
   void checkBoxChanged(bool? value, int index) {
@@ -24,11 +22,28 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  //Save New Task
+  void saveNewTask() {
+    setState(() {
+      todoList.add(
+        [
+          _controller.text,
+          false,
+        ],
+      );
+      Navigator.of(context).pop();
+    });
+  }
+
   void addNewTask() {
     showDialog(
         context: context,
         builder: (context) {
-          return const DialogBox();
+          return DialogBox(
+            controller: _controller,
+            onSave: saveNewTask,
+            onCancel: () => Navigator.of(context).pop(),
+          );
         });
   }
 
